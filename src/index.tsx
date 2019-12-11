@@ -84,11 +84,7 @@ const Collapsible: React.FC<CollapsibleProperties> = ({
       &nbsp;&#8230;&nbsp;
     </span>
     <span>{endChar}</span>
-    {!expanded && (
-      <span style={{ color: "gray" }}>
-        {" //"} {size} items
-      </span>
-    )}
+    <span style={{ color: "gray", display: expanded ? "none" : "inline-block" }}>&nbsp;// {size} items</span>
   </span>
 );
 
@@ -162,40 +158,54 @@ interface JSONValueProperties {
   options?: JSONValueOptions;
   suffix?: string;
 }
+interface JSONValueState {
+  expanded: boolean;
+}
 
 // const defaultOptions = {
 //   font: ""
 // };
 
-// eslint-disable-next-line no-unused-vars
-const JSONValue: React.FC<JSONValueProperties> = ({ name, value, options = {}, suffix }) => {
-  const [expanded, setExpanded] = React.useState(true);
-
-  let cmp = null;
-  if (value === null) {
-    cmp = renderBasic(name, value);
-  } else if (Array.isArray(value)) {
-    cmp = renderArray(name, value, {
-      expanded,
-      setExpanded
-    });
-  } else if (typeof value === "object") {
-    cmp = renderObject(name, value, {
-      expanded,
-      setExpanded
-    });
-  }
-  if (cmp === null) {
-    cmp = renderBasic(name, value);
+class JSONValue extends React.PureComponent<JSONValueProperties, JSONValueState> {
+  constructor(props: any) {
+    super(props);
+    this.state = { expanded: true };
   }
 
-  return (
-    <span className="JSONValue" style={{ display: "block", paddingLeft: 20, marginLeft: -20, position: "relative" }}>
-      {cmp}
-      {suffix}
-    </span>
-  );
-};
+  setExpanded = () => {
+    this.setState({ expanded: !this.state.expanded });
+  };
+
+  render() {
+    const { name, value, suffix } = this.props;
+    const { expanded } = this.state;
+
+    let cmp = null;
+    if (value === null) {
+      cmp = renderBasic(name, value);
+    } else if (Array.isArray(value)) {
+      cmp = renderArray(name, value, {
+        expanded,
+        setExpanded: this.setExpanded
+      });
+    } else if (typeof value === "object") {
+      cmp = renderObject(name, value, {
+        expanded,
+        setExpanded: this.setExpanded
+      });
+    }
+    if (cmp === null) {
+      cmp = renderBasic(name, value);
+    }
+
+    return (
+      <span className="JSONValue" style={{ display: "block", paddingLeft: 20, marginLeft: -20, position: "relative" }}>
+        {cmp}
+        {suffix}
+      </span>
+    );
+  }
+}
 
 interface JsonViewerProperties {
   value: any;
