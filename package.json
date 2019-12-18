@@ -58,6 +58,7 @@
   },
   "files": [
     "build/**/*",
+    "!build/**/*.map",
     "!build/**/stories/**/*",
     "README.md",
     "LICENSE.md"
