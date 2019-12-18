@@ -36,8 +36,9 @@ const omgValue = {
   arr: []
 };
 
-for (let i = 0; i < 1024; i++) {
+for (let i = 0; i < omgValue.halo; i++) {
   // @ts-ignore
   omgValue.arr.push(objectValue);
 }
+export const AnEmptyObject = () => <JsonView value={{}} />;
 export const ARidiculousObject = () => <JsonView value={omgValue} />;
