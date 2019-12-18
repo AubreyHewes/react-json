@@ -9,6 +9,8 @@
     "dev": "start-storybook",
     "build": "tsc",
     "lint": "eslint src/**/* .storybook/**/*",
+    "build:docs": "build-storybook -c .storybook -o docs",
+    "publish:docs": "now docs -n react-json --scope hewes",
     "prepublish": "yarn run lint"
   },
   "engines": {
