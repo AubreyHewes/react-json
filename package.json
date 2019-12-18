@@ -56,5 +56,11 @@
   ],
   "prettier": {
     "printWidth": 120
-  }
+  },
+  "files": [
+    "build/**/*",
+    "!build/**/stories/**/*",
+    "README.md",
+    "LICENSE.md"
+  ]
 }
