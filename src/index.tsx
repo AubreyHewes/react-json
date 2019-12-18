@@ -1,6 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
 
+import Loader from "./components/Loader";
+
 // eslint-disable-next-line prettier/prettier
 const COLLAPSE_ICON =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAD1JREFUeNpiYGBgOADE%2F3Hgw0DM4IRHgSsDFOzFInmMAQnY49ONzZRjDFiADT7dMLALiE8y4AGW6LoBAgwAuIkf%2F%2FB7O9sAAAAASUVORK5CYII%3D";
@@ -213,13 +215,25 @@ interface JsonViewerProperties {
 }
 
 // eslint-disable-next-line no-unused-vars
-const JsonViewer: React.FC<JsonViewerProperties> = ({ value, options }) => (
-  <div
-    className={"JsonViewer"}
-    style={{ font: "13px/18px monospace", display: "block", paddingLeft: 28, position: "relative" }}
-  >
-    <JSONValue value={value} />
-  </div>
-);
+const JsonViewer: React.FC<JsonViewerProperties> = ({ value, options }) => {
+  const [cmp, setCmp] = React.useState(<Loader message="Rendering..." />);
+  React.useEffect(() => {
+    new Promise(resolve => {
+      setTimeout(() => {
+        const rCmp = <JSONValue value={value} />;
+        resolve(rCmp);
+      }, 1);
+    }).then(setCmp);
+  }, [value]);
+
+  return (
+    <div
+      className={"JsonViewer"}
+      style={{ font: "13px/18px monospace", display: "block", paddingLeft: 28, position: "relative" }}
+    >
+      {cmp}
+    </div>
+  );
+};
 
 export default JsonViewer;
