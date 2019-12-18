@@ -1,6 +1,6 @@
 {
   "name": "@hewes/react-json",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha1",
   "main": "src/index.js",
   "repository": "git@github.com:AubreyHewes/react-json.git",
   "author": "Aubrey Hewes <AubreyHewes@users.noreply.github.com>",
