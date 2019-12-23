@@ -5,32 +5,7 @@ import JsonView from "../index";
 import { stringValue, numberValue, arrayValue, objectValue } from "./fixtures";
 
 export default {
-  title: "JSON Viewer|Basic"
-};
-
-const stringValue = "HelloWorld";
-const numberValue = 42;
-const arrayValue = [
-  numberValue,
-  true,
-  stringValue,
-  null,
-  false,
-  {
-    string: stringValue,
-    number: numberValue,
-    "boolean:true": true,
-    "boolean:false": false,
-    null: null
-  }
-];
-const objectValue = {
-  string: stringValue,
-  number: numberValue,
-  "boolean:true": true,
-  "boolean:false": false,
-  null: null,
-  array: arrayValue
+  title: "JSON Viewer|Types"
 };
 
 export const ANull = () => <JsonView value={null} />;
