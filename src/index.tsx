@@ -220,6 +220,14 @@ const JsonViewer: React.FC<JsonViewerProperties> = ({ value, options }) => {
   React.useEffect(() => {
     new Promise(resolve => {
       setTimeout(() => {
+        if (typeof value === "string" && /.*?[[{]/.test(value)) {
+          try {
+            value = JSON.parse(value);
+          } catch (err) {
+            resolve(<div className="JsonViewer__Error">Invalid JSON: {err.message}</div>);
+            return;
+          }
+        }
         const rCmp = <JSONValue value={value} />;
         resolve(rCmp);
       }, 1);
