@@ -2,6 +2,8 @@ import * as React from "react";
 
 import JsonView from "../index";
 
+import { stringValue, numberValue, arrayValue, objectValue } from "./fixtures";
+
 export default {
   title: "JSON Viewer|Basic"
 };
