@@ -8,8 +8,10 @@
   "scripts": {
     "dev": "start-storybook",
     "build": "tsc",
-    "lint": "eslint src/**/* .storybook/**/*",
+    "lint": "eslint . --ext js,jsx,ts,tsx",
+    "storybook": "start-storybook -p 6006",
     "build:docs": "build-storybook -c .storybook -o docs",
+    "serve:docs": "serve docs",
     "publish:docs": "now docs -n react-json --scope hewes",
     "prepublish": "yarn run lint"
   },
@@ -17,33 +19,42 @@
     "node": ">=10"
   },
   "dependencies": {
-    "styled-components": "^4.4.1"
+    "styled-components": "^5.3.1"
   },
   "peerDependencies": {
-    "react": ">=16.8 <17"
+    "react": ">=16.8 <18"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
+    "@babel/core": "^7.15.0",
     "@hewes/eslint-config": "^1.1.3",
-    "@storybook/react": "^5.2.8",
-    "@storybook/theming": "latest",
-    "@types/react": "^16.9.14",
-    "@types/styled-components": "^4.4.0",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-styled-components": "^1.10.6",
-    "bootstrap": "^4.4.1",
-    "eslint": "^6.7.2",
-    "node-sass": "^4.13.1",
-    "prettier": "^1.19.1",
-    "react": "^16.12.0",
-    "react-docgen-typescript-loader": "^3.6.0",
-    "react-dom": "^16.12.0",
+    "@storybook/addon-actions": "^6.3.7",
+    "@storybook/addon-essentials": "^6.3.7",
+    "@storybook/addon-links": "^6.3.7",
+    "@storybook/addon-postcss": "^2.0.0",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/react": "^6.3.7",
+    "@storybook/theming": "^6.3.7",
+    "@types/react": "^17.0.19",
+    "@types/styled-components": "^5.1.12",
+    "autoprefixer": "^10.3.2",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-styled-components": "^1.13.2",
+    "bootstrap": "^4.6.0",
+    "css-loader": "^6.2.0",
+    "eslint": "^7.32.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "prettier": "^2.3.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-promise": "^3.0.2",
-    "sass-loader": "^8.0.0",
-    "typescript": "^3.7.3"
+    "sass": "^1.38.1",
+    "sass-loader": "^12.1.0",
+    "serve": "^12.0.0",
+    "style-loader": "^3.2.1",
+    "typescript": "^4.3.5"
   },
   "eslintConfig": {
+    "root": true,
     "extends": "@hewes/eslint-config",
     "settings": {
       "react": {
@@ -56,7 +67,8 @@
   },
   "eslintIgnore": [
     "build/",
-    "node_modules"
+    "docs/",
+    "node_modules/"
   ],
   "prettier": {
     "printWidth": 120
