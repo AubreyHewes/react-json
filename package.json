@@ -1,10 +1,16 @@
 {
   "name": "@hewes/react-json",
-  "version": "0.1.0-alpha1",
-  "main": "build/lib/index.js",
-  "repository": "git@github.com:AubreyHewes/react-json.git",
-  "author": "Aubrey Hewes <AubreyHewes@users.noreply.github.com>",
+  "version": "0.1.0-alpha.1",
   "license": "MIT",
+  "author": "Aubrey Hewes <AubreyHewes@users.noreply.github.com>",
+  "homepage": "https://github.com/AubreyHewes/react-json#readme",
+  "bugs": {
+    "url": "https://github.com/AubreyHewes/react-json/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AubreyHewes/react-json.git"
+  },
   "scripts": {
     "dev": "start-storybook",
     "build": "tsc",
@@ -13,8 +19,11 @@
     "build:docs": "build-storybook -c .storybook -o docs",
     "serve:docs": "serve docs",
     "publish:docs": "now docs -n react-json --scope hewes",
-    "prepublish": "yarn run lint"
+    "prepublish": "yarn run lint",
+    "release": "standard-version -s"
   },
+  "main": "build/lib/index.js",
+  "types": "build/lib/index.d.ts",
   "engines": {
     "node": ">=10"
   },
@@ -26,6 +35,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
     "@hewes/eslint-config": "^1.1.3",
     "@storybook/addon-actions": "^6.3.7",
     "@storybook/addon-essentials": "^6.3.7",
@@ -42,6 +53,8 @@
     "bootstrap": "^4.6.0",
     "css-loader": "^6.2.0",
     "eslint": "^7.32.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^11.1.2",
     "postcss-flexbugs-fixes": "^5.0.2",
     "prettier": "^2.3.2",
     "react": "^17.0.2",
@@ -49,7 +62,10 @@
     "react-promise": "^3.0.2",
     "sass": "^1.38.1",
     "sass-loader": "^12.1.0",
+    "semantic-release": "^17.4.6",
     "serve": "^12.0.0",
+    "source-map-explorer": "^2.5.2",
+    "standard-version": "^9.3.1",
     "style-loader": "^3.2.1",
     "typescript": "^4.3.5"
   },
@@ -73,10 +89,25 @@
   "prettier": {
     "printWidth": 120
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": "eslint --fix"
+  },
   "files": [
     "build/**/*",
     "!build/**/*.map",
     "!build/**/stories/**/*",
+    "!build/**/components/**/*",
     "README.md",
     "LICENSE.md"
   ]
