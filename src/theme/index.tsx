@@ -1,4 +1,7 @@
-export interface Theme {
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
+
+export interface JsonViewerTheme {
   backgroundColor: string;
   color: string;
   stringValueColor: string;
@@ -6,7 +9,7 @@ export interface Theme {
   commentColor: string;
 }
 
-export const LightTheme: Theme = {
+export const DefaultJsonViewerTheme: JsonViewerTheme = {
   backgroundColor: "white",
   color: "black",
   stringValueColor: "#0B7500",
@@ -14,15 +17,7 @@ export const LightTheme: Theme = {
   commentColor: "gray",
 };
 
-export const DarkTheme: Theme = {
-  backgroundColor: "",
-  color: "",
-  stringValueColor: "",
-  valueColor: "",
-  commentColor: "",
-};
-
-export default {
-  LightTheme,
-  DarkTheme,
+export const useTheme = (): JsonViewerTheme => {
+  const themeContext = useContext<any>(ThemeContext);
+  return themeContext?.jsonViewer ?? themeContext ?? DefaultJsonViewerTheme;
 };

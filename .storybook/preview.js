@@ -1,5 +1,5 @@
 import { ThemeProvider } from "styled-components";
-import themes from "../src/theme";
+import { DefaultJsonViewerTheme } from "../src/theme";
 
 export const globalTypes = {
   theme: {
@@ -26,10 +26,21 @@ export const parameters = {
   },
 }
 
+const themes = {
+  light: DefaultJsonViewerTheme,
+  dark: {
+    backgroundColor: "#121212",
+    color: "#018ccc",
+    stringValueColor: "orange",
+    valueColor: "#00b2ff",
+    commentColor: "gray",
+  }
+};
+
 const withThemeProvider=(Story,context)=>{
-  const theme = themes[`${context.globals.theme[0].toUpperCase()}${context.globals.theme.slice(1)}Theme`] ?? {};
+  const theme = themes[context.globals.theme] ?? DefaultJsonViewerTheme;
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={{jsonViewer: theme}}>
       <Story {...context} />
     </ThemeProvider>
   )
