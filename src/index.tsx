@@ -1,7 +1,9 @@
 import * as React from "react";
-import styled from "styled-components";
+import styled, { ThemeContext } from "styled-components";
 
 import Loader from "./components/Loader";
+import { useContext } from "react";
+import { Theme } from "./theme";
 
 // eslint-disable-next-line prettier/prettier
 const COLLAPSE_ICON =
@@ -29,7 +31,7 @@ const CollapseIcon = styled.span<CollapseIconProperties>`
     opacity: 0.35;
   }
 
-  ${props => !props.expanded && "transform: rotate(-90deg); height:16px;"}
+  ${(props) => !props.expanded && "transform: rotate(-90deg); height:16px;"}
 `;
 
 interface CollapsibleProperties {
@@ -51,44 +53,49 @@ const Collapsible: React.FC<CollapsibleProperties> = ({
   children,
   expanded,
   setExpanded,
-  size
-}) => (
-  // children =
-  //   children &&
-  //   children.map((c, idx) => (
-  //     <React.Fragment>
-  //       {c}
-  //       {idx + 1 < size && <span>,</span>}
-  //     </React.Fragment>
-  //   ));
-  <span className="json_value json_object">
-    <CollapseIcon expanded={expanded} onClick={() => setExpanded(!expanded)} />
-    {name && (
-      <span style={{ cursor: "pointer" }} onClick={() => setExpanded(!expanded)}>
-        &quot;{name}&quot;:&nbsp;
+  size,
+}) => {
+  const themeContext = useContext<Theme>(ThemeContext);
+  return (
+    // children =
+    //   children &&
+    //   children.map((c, idx) => (
+    //     <React.Fragment>
+    //       {c}
+    //       {idx + 1 < size && <span>,</span>}
+    //     </React.Fragment>
+    //   ));
+    <span className="json_value json_object">
+      <CollapseIcon expanded={expanded} onClick={() => setExpanded(!expanded)} />
+      {name && (
+        <span style={{ cursor: "pointer" }} onClick={() => setExpanded(!expanded)}>
+          &quot;{name}&quot;:&nbsp;
+        </span>
+      )}
+      <span>{startChar}</span>
+      <span
+        style={{
+          display: expanded ? "block" : "none",
+          paddingLeft: 24,
+          borderLeft: "1px dotted #bbb",
+          marginLeft: 2,
+        }}
+      >
+        {children}
       </span>
-    )}
-    <span>{startChar}</span>
-    <span
-      style={{
-        display: expanded ? "block" : "none",
-        paddingLeft: 24,
-        borderLeft: "1px dotted #bbb",
-        marginLeft: 2
-      }}
-    >
-      {children}
+      <span
+        onClick={() => setExpanded(!expanded)}
+        style={{ display: expanded ? "none" : "inline-block", cursor: "pointer", color: "gray" }}
+      >
+        &nbsp;&#8230;&nbsp;
+      </span>
+      <span>{endChar}</span>
+      <span style={{ color: themeContext.commentColor, display: expanded ? "none" : "inline-block" }}>
+        &nbsp;// {size} items
+      </span>
     </span>
-    <span
-      onClick={() => setExpanded(!expanded)}
-      style={{ display: expanded ? "none" : "inline-block", cursor: "pointer", color: "gray" }}
-    >
-      &nbsp;&#8230;&nbsp;
-    </span>
-    <span>{endChar}</span>
-    <span style={{ color: "gray", display: expanded ? "none" : "inline-block" }}>&nbsp;// {size} items</span>
-  </span>
-);
+  );
+};
 
 const renderObject = (name: string | undefined, value: any, options: JSONValueOptions) => {
   const objectKeys = Object.keys(value);
@@ -128,18 +135,19 @@ const renderArray = (name: string | undefined, value: any, options: JSONValueOpt
 
 // const renderName = name => <span>{name}</span>;
 
-const renderBasic = (name: string | undefined, value: any) => {
+const RenderProperty = ({ name, value }: { name: string | undefined; value: any }) => {
+  const themeContext = useContext<Theme>(ThemeContext);
   const nameCmp = name && <span style={{ cursor: "pointer" }}>&quot;{name}&quot;:&nbsp;</span>;
 
   let cmp = null;
   if (typeof value === "number") {
-    cmp = <span style={{ color: "#1A01CC", fontWeight: "bold" }}>{value}</span>;
+    cmp = <span style={{ color: themeContext.valueColor, fontWeight: "bold" }}>{value}</span>;
   } else if (typeof value === "string") {
-    cmp = <span style={{ color: "#0B7500", wordWrap: "break-word" }}>&quot;{value}&quot;</span>;
+    cmp = <span style={{ color: themeContext.stringValueColor, wordWrap: "break-word" }}>&quot;{value}&quot;</span>;
   } else if (typeof value === "boolean") {
-    cmp = <span style={{ color: "#1A01CC", fontWeight: "bold" }}>{value ? "true" : "false"}</span>;
+    cmp = <span style={{ color: themeContext.valueColor, fontWeight: "bold" }}>{value ? "true" : "false"}</span>;
   } else if (value === null) {
-    cmp = <span style={{ color: "#1A01CC", fontWeight: "bold" }}>null</span>;
+    cmp = <span style={{ color: themeContext.valueColor, fontWeight: "bold" }}>null</span>;
   }
   return (
     <React.Fragment>
@@ -184,20 +192,20 @@ class JSONValue extends React.PureComponent<JSONValueProperties, JSONValueState>
 
     let cmp = null;
     if (value === null) {
-      cmp = renderBasic(name, value);
+      cmp = <RenderProperty name={name} value={value} />;
     } else if (Array.isArray(value)) {
       cmp = renderArray(name, value, {
         expanded,
-        setExpanded: this.setExpanded
+        setExpanded: this.setExpanded,
       });
     } else if (typeof value === "object") {
       cmp = renderObject(name, value, {
         expanded,
-        setExpanded: this.setExpanded
+        setExpanded: this.setExpanded,
       });
     }
     if (cmp === null) {
-      cmp = renderBasic(name, value);
+      cmp = <RenderProperty name={name} value={value} />;
     }
 
     return (
@@ -216,9 +224,11 @@ interface JsonViewerProperties {
 
 // eslint-disable-next-line no-unused-vars
 const JsonViewer: React.FC<JsonViewerProperties> = ({ value, options }) => {
+  const themeContext = useContext<Theme>(ThemeContext);
+  console.log(themeContext);
   const [cmp, setCmp] = React.useState(<Loader message="Rendering..." />);
   React.useEffect(() => {
-    new Promise(resolve => {
+    new Promise((resolve) => {
       setTimeout(() => {
         if (typeof value === "string" && /.*?[[{]/.test(value)) {
           try {
