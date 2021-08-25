@@ -3,7 +3,7 @@ import * as React from "react";
 import Loader from "../components/Loader";
 
 export default {
-  title: "Misc Components|Loader"
+  title: "Misc Components/Loader",
 };
 
 export const MessageAtRight = () => <Loader message="Loading..." messagePosition="right" />;

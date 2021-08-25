@@ -3,7 +3,7 @@ import * as React from "react";
 import JsonView from "../index";
 
 export default {
-  title: "Performance"
+  title: "JSON Viewer/Performance",
 };
 
 const stringValue = "HelloWorld";

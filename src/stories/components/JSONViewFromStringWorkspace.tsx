@@ -2,7 +2,7 @@ import * as React from "react";
 
 import JsonView from "../../index";
 
-import "./Example.scss";
+// import "./Example.scss";
 
 interface ExampleProps {
   description: string;

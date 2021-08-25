@@ -5,7 +5,7 @@ import JSONViewFromStringWorkspace from "./components/JSONViewFromStringWorkspac
 import { objectValue } from "./fixtures";
 
 export default {
-  title: "JSON Viewer|Render from String"
+  title: "JSON Viewer/Render from String",
 };
 
 export const ValidJSONString = () => (

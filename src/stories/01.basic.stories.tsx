@@ -5,7 +5,7 @@ import JsonView from "../index";
 import { stringValue, numberValue, arrayValue, objectValue } from "./fixtures";
 
 export default {
-  title: "JSON Viewer|Types"
+  title: "JSON Viewer/Types",
 };
 
 export const ANull = () => <JsonView value={null} />;
