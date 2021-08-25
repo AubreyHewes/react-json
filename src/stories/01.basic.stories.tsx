@@ -17,7 +17,7 @@ export const AnObject = () => (
   <JsonView
     value={{
       ...objectValue,
-      object: objectValue
+      object: objectValue,
     }}
   />
 );

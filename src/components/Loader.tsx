@@ -16,7 +16,7 @@ interface LoaderDivProps {
 
 const LoaderDiv = styled.div<LoaderDivProps>`
   display: flex;
-  flex-direction: ${props => {
+  flex-direction: ${(props) => {
     if (props.messagePosition === "top") {
       return "column-reverse";
     }
@@ -49,7 +49,7 @@ const Loader: React.FC<LoaderProps> = ({
   message,
   messagePosition = "right",
   spinnerSize = 24,
-  spinnerColor = "gray"
+  spinnerColor = "gray",
 }) => (
   <div style={{ display: "inline-block" }}>
     <LoaderDiv messagePosition={messagePosition}>

@@ -20,7 +20,7 @@ export const JSONViewFromStringWorkspace: React.FC<ExampleProps> = ({ descriptio
           <div>Input</div>
           <textarea
             style={{ flex: 1, fontFamily: "monospace" }}
-            onChange={e => {
+            onChange={(e) => {
               console.log("newvalue", e.target.value);
               setStringValue(e.target.value);
             }}

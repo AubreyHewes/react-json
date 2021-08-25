@@ -11,8 +11,8 @@ export const arrayValue = [
     number: numberValue,
     "boolean:true": true,
     "boolean:false": false,
-    null: null
-  }
+    null: null,
+  },
 ];
 export const objectValue = {
   string: stringValue,
@@ -20,5 +20,5 @@ export const objectValue = {
   "boolean:true": true,
   "boolean:false": false,
   null: null,
-  array: arrayValue
+  array: arrayValue,
 };

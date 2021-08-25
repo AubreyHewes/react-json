@@ -19,8 +19,8 @@ const arrayValue = [
     number: numberValue,
     "boolean:true": true,
     "boolean:false": false,
-    null: null
-  }
+    null: null,
+  },
 ];
 const objectValue = {
   string: stringValue,
@@ -28,12 +28,12 @@ const objectValue = {
   "boolean:true": true,
   "boolean:false": false,
   null: null,
-  array: arrayValue
+  array: arrayValue,
 };
 
 const omgValue = {
   halo: 1024,
-  arr: []
+  arr: [],
 };
 
 for (let i = 0; i < omgValue.halo; i++) {
